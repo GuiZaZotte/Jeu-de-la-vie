@@ -1,26 +1,25 @@
 #ifndef GRILLE_H
 #define GRILLE_H
 
-// Implementation des bibliothèques :
-#include <vector> // permet d'utilser le conteneur vector dans notre cas.
-using namespace std; // permet d'éviter de réécrite std à chaque utilisation de la bibliothèque standard dans notre cas.
+#include <vector>
+using namespace std;
 
 class Grille {
 private:
-    vector<vector<int>> matrice; // permet de déclarer la matrice sous forme de vecteur de vecteurs d'entiers
+    vector<vector<int>> matrice; // Matrice de la grille
 
 public:
-    // Constructeurs : 
-    Grille(); // permer de creer une instance avec une matrice par défaut.
-    Grille(vector<vector<int>> matrice); // permet de creer une instance avec une matrice personnalisé.
+    // Constructeurs
+    Grille(); 
+    Grille(vector<vector<int>> matrice); 
 
-    // Les deux accesseurs get,set : 
-    vector<vector<int>> getMatrice() const; // permet de récupérer la matrice, utilisation de const pour pas la modifier.
-    void setMatrice(const vector<vector<int>>& nouvelle_matrice); // permet de modifier la matrice avec la nouvelle matrice, elle prend en paramètre la nouvelle matrice vectorielle en référence pour éviter la duplication.
+    // Accesseurs
+    vector<vector<int>> getMatrice() const; // Ajout de `const` ici pour correspondre à l'implémentation
+    void setMatrice(const vector<vector<int>>& nouvelle_matrice); // Met à jour la matrice avec une nouvelle
 
-    // Les méthodes principales : 
-    void implementation_valeurs(); // permet de remplir la matrice avec les valeurs du fichier txt.
-    void affiche_grille() const;  // permet d'afficher la matrice dans la console.
+    // Méthodes principales
+    void implementation_valeurs(); // Remplit la matrice avec les valeurs d'un fichier
+    void affiche_grille() const;         // Affiche la matrice
 };
 
 #endif
