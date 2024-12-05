@@ -1,32 +1,37 @@
 #include "Simulation.h"
 
-Simulation::Simulation() : max_iterations(0) {}
+using namespace std;
 
+
+Simulation::Simulation(){
+    max_iterations = 0;
+} 
 void Simulation::lancer() {
     // Charger la grille
     grille.implementation_valeurs();
     if (grille.getMatrice().empty()) {
-        std::cerr << "Erreur : La matrice est vide !" << std::endl;
+        cerr << "Erreur : La matrice est vide !" << endl;
         return;
     }
 
     // Menu principal
-    std::cout << "Choisissez l'interface :\n";
-    std::cout << "1. Interface console\n";
-    std::cout << "2. Interface graphique\n";
-    std::cout << "Votre choix : ";
+    cout << "Choisissez l'interface :\n";
+    cout << "1. Interface console\n";
+    cout << "2. Interface graphique\n";
+    cout << "Votre choix : ";
     int choix;
-    std::cin >> choix;
+    cin >> choix;
 
-    std::cout << "Entrez le nombre d'iterations : ";
-    std::cin >> max_iterations;
+    
+    cout << "Entrez le nombre d'iterations : ";
+    cin >> max_iterations;
 
     if (choix == 1) {
         interfaceConsole();
     } else if (choix == 2) {
         interfaceGraphique();
     } else {
-        std::cerr << "Erreur : Choix invalide !" << std::endl;
+        cerr << "Erreur : Choix invalide !" << endl;
     }
 }
 
@@ -36,11 +41,14 @@ void Simulation::interfaceConsole() {
         Cellule cellule;
         auto nouvelleMatrice = cellule.Cellule_changement_etat(grille.getMatrice());
         grille.setMatrice(nouvelleMatrice);
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));  // Pause d'une seconde
+        this_thread::sleep_for(chrono::milliseconds(1000));  // Pause d'une seconde
     }
 }
 
 void Simulation::interfaceGraphique() {
+    int temps;
+    cout<<"Entrée le temps entre deux itérations en milliseconde ( idéal : 200) :    ";
+    cin >> temps;
     int lignes = grille.getMatrice().size();
     int colonnes = grille.getMatrice()[0].size();
     int taille_case = 50;  // Taille de chaque case
@@ -73,7 +81,7 @@ void Simulation::interfaceGraphique() {
             }
         }
         window.display();
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));  // Pause entre les itérations
+        this_thread::sleep_for(chrono::milliseconds(temps));  // Pause entre les itérations
         iteration++;
     }
 }
