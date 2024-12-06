@@ -19,68 +19,59 @@ Grille::Grille(vector<vector<int>> matrice) { // permet de creer une instance av
     this->matrice = matrice;  // permet de remplacer la matrice par défaut par la nouvelle matrice, utilisation de this pour différencier les deux matrices.
 }
 
-
 // Méthodes principales : 
 
+void Grille::implementation_valeurs() {
+    ifstream fichier;
 
-void Grille::implementation_valeurs() { // permet de remplir la matrice avec les valeurs du fichier txt.
-    
-    // permet d'ouvrir le fichier, si cela ne marche alors la méthode renvoie une erreur
-    ifstream fichier("test.txt");
-    if (!fichier) {
-        cerr << "Erreur fichier" << endl;
-        return;
+    cout << "Entrez le nom de votre fichier d'entrée avec l'extension : ";
+    cin >> fichier_source;
+
+    fichier.open(fichier_source);
+    while (!fichier) { // Tant que le fichier ne peut pas être ouvert
+        cerr << "Erreur : Impossible d'ouvrir le fichier " << fichier_source << ". Veuillez réessayer." << endl;
+        cout << "Entrez le nom de votre fichier d'entrée avec l'extension : ";
+        cin >> fichier_source;
+        fichier.open(fichier_source); // Réessaye d'ouvrir le fichier
     }
 
-    // permet de lire les deux premier éléments du fichier txt, qui indique les dimensions de la matrices.
+    // Lecture des dimensions
     int lignes, colonnes;
     fichier >> lignes >> colonnes;
-
-    // permet de redimensionner la matrice par défaut par les dimensions du fichier txt
     matrice.resize(lignes, vector<int>(colonnes));
 
-    // permet de remplir la matrice par les valeurs du fichier
+    // Remplissage de la matrice
     for (int i = 0; i < lignes; ++i) {
         for (int j = 0; j < colonnes; ++j) {
             fichier >> matrice[i][j];
         }
     }
 
-    // parmet de fermer le fichier car la matrice est remplie
-    fichier.close();
+    fichier.close(); // Ferme le fichier
+    cout << "Fichier chargé avec succès." << endl;
 }
 
-// permet d'afficher la matrice dans la console.
 
+
+string Grille::getFichierSource() const {
+    return fichier_source;  // Retourne le nom du fichier source
+}
+
+// Méthode pour afficher la grille
 void Grille::affiche_grille() const {
-    // On parcourt chaque ligne de la matrice.
-    for (std::vector<std::vector<int>>::size_type i = 0; i < matrice.size(); ++i) {
-        // On parcourt chaque cellule dans la ligne i.
-        for (std::vector<int>::size_type j = 0; j < matrice[i].size(); ++j) {
-            // Si la cellule contient 1, on affiche "1", sinon "0".
-            if (matrice[i][j] == 1) {
-                std::cout << "1 ";
-            } else {
-                std::cout << "0 ";
-            }
+    for (const auto& ligne : matrice) {
+        for (int cell : ligne) {
+            cout << cell << " ";
         }
-        // Après avoir affiché toutes les cellules de la ligne, on passe à la ligne suivante.
-        std::cout << std::endl;
+        cout << endl;
     }
 }
 
-
-
-// Les accesseurs :
-
-// permet de récupérer la matrice, utilisation de const pour pas la modifier.
+// Accesseurs
 vector<vector<int>> Grille::getMatrice() const {
     return matrice;
 }
 
-// permet de modifier la matrice avec la nouvelle matrice, elle prend en paramètre la nouvelle matrice vectorielle en référence pour éviter la duplication.
 void Grille::setMatrice(const vector<vector<int>>& nouvelle_matrice) {
     matrice = nouvelle_matrice;
 }
-
-

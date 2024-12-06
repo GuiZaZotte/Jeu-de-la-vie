@@ -1,11 +1,17 @@
 #include "Simulation.h"
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include <thread>
+#include <chrono>
+#include <filesystem>
+#include <fstream>
 
 using namespace std;
-
-
-Simulation::Simulation(){
+//controlleur
+Simulation::Simulation() {
     max_iterations = 0;
 } 
+
 void Simulation::lancer() {
     // Charger la grille
     grille.implementation_valeurs();
@@ -22,7 +28,6 @@ void Simulation::lancer() {
     int choix;
     cin >> choix;
 
-    
     cout << "Entrez le nombre d'iterations : ";
     cin >> max_iterations;
 
@@ -36,24 +41,65 @@ void Simulation::lancer() {
 }
 
 void Simulation::interfaceConsole() {
+    // Récupérer le nom du fichier source
+    string fichier_source = grille.getFichierSource();
+
+    // Créer le dossier de sortie
+    string dossier_sortie = fichier_source.substr(0, fichier_source.find('.')) + "_out";
+    if (!filesystem::exists(dossier_sortie)) {
+        filesystem::create_directory(dossier_sortie);
+    }
+
+    // Effectuer les itérations et sauvegarder les états
     for (int iteration = 0; iteration < max_iterations; ++iteration) {
-        grille.affiche_grille();  // Affiche la grille
+        // Affiche la grille dans la console
+        cout << "Iteration " << iteration + 1 << ":" << endl;
+        grille.affiche_grille();
+
+        // Sauvegarde de l'état dans un fichier
+        string nom_fichier_sortie = dossier_sortie + "/iteration_" + to_string(iteration + 1) + ".txt";
+        ofstream fichier_sortie(nom_fichier_sortie);
+        if (fichier_sortie) {
+            for (const auto& ligne : grille.getMatrice()) {
+                for (int valeur : ligne) {
+                    fichier_sortie << valeur << " ";
+                }
+                fichier_sortie << endl;
+            }
+        }
+        fichier_sortie.close();
+
+        // Calcul de l'état suivant
         Cellule cellule;
         auto nouvelleMatrice = cellule.Cellule_changement_etat(grille.getMatrice());
         grille.setMatrice(nouvelleMatrice);
-        this_thread::sleep_for(chrono::milliseconds(1000));  // Pause d'une seconde
+
+        // Pause entre les itérations
+        this_thread::sleep_for(chrono::milliseconds(1000));
     }
 }
 
+
 void Simulation::interfaceGraphique() {
     int temps;
-    cout<<"Entrée le temps entre deux itérations en milliseconde ( idéal : 200) :    ";
+    cout << "Entrez le temps entre deux itérations en millisecondes (idéal : 200) : ";
     cin >> temps;
+    
     int lignes = grille.getMatrice().size();
     int colonnes = grille.getMatrice()[0].size();
-    int taille_case = 50;  // Taille de chaque case
-    sf::RenderWindow window(sf::VideoMode(colonnes * taille_case, lignes * taille_case), "Simulation de la grille");
+    int taille_case = 10;  // Taille de chaque case (ajustez pour rendre plus petit ou grand)
+    
+    // Limiter la taille de la fenêtre
+    int max_largeur = 800; // Largeur maximale de la fenêtre
+    int max_hauteur = 600; // Hauteur maximale de la fenêtre
+    
+    // Calculer la taille de la fenêtre en fonction de la grille
+    int largeur_fenetre = min(colonnes * taille_case, max_largeur);
+    int hauteur_fenetre = min(lignes * taille_case, max_hauteur);
 
+    // Créer la fenêtre avec la taille ajustée
+    sf::RenderWindow window(sf::VideoMode(largeur_fenetre, hauteur_fenetre), "Simulation de la grille", sf::Style::Resize);
+    
     sf::Color couleur_vivante = sf::Color::White;
     sf::Color couleur_morte = sf::Color::Black;
 
