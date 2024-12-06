@@ -8,7 +8,6 @@ using namespace std; // permet d'éviter de réécrite std à chaque utilisation
 class Grille {
 private:
     vector<vector<int>> matrice; // permet de déclarer la matrice sous forme de vecteur de vecteurs d'entiers
-
 public:
     // Constructeurs : 
     Grille(); // permer de creer une instance avec une matrice par défaut.
@@ -21,6 +20,9 @@ public:
     // Les méthodes principales : 
     void implementation_valeurs(); // permet de remplir la matrice avec les valeurs du fichier txt.
     void affiche_grille() const;  // permet d'afficher la matrice dans la console.
+
+
+    
 };
 
 #endif

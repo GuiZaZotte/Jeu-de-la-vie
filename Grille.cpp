@@ -25,8 +25,11 @@ Grille::Grille(vector<vector<int>> matrice) { // permet de creer une instance av
 
 void Grille::implementation_valeurs() { // permet de remplir la matrice avec les valeurs du fichier txt.
     
+    string nom_fichier;
+    cout<<"Entrée le nom de votre fichier d'entrée avec l'extension : ";
+    cin>>nom_fichier;
     // permet d'ouvrir le fichier, si cela ne marche alors la méthode renvoie une erreur
-    ifstream fichier("test.txt");
+    ifstream fichier(nom_fichier);
     if (!fichier) {
         cerr << "Erreur fichier" << endl;
         return;
