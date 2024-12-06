@@ -11,15 +11,24 @@ vector<vector<int>> Cellule::Cellule_changement_etat(const vector<vector<int>>& 
         for (size_t j = 0; j < matrice[i].size(); j++) {  // Utilisation de size_t
             compteur = 0;
 
-            // Vérifie les cellules adjacentes
-            if (i + 1 < matrice.size() && matrice[i + 1][j] == 1) compteur++;
-            if (i > 0 && matrice[i - 1][j] == 1) compteur++;  // Vérification que i > 0 avant de soustraire
-            if (j + 1 < matrice[0].size() && matrice[i][j + 1] == 1) compteur++;
-            if (j > 0 && matrice[i][j - 1] == 1) compteur++;  // Vérification que j > 0 avant de soustraire
-            if (i + 1 < matrice.size() && j > 0 && matrice[i + 1][j - 1] == 1) compteur++;  // i + 1 < matrice.size() et j > 0
-            if (i + 1 < matrice.size() && j + 1 < matrice[0].size() && matrice[i + 1][j + 1] == 1) compteur++;
-            if (i > 0 && j > 0 && matrice[i - 1][j - 1] == 1) compteur++;  // i > 0 et j > 0
-            if (i > 0 && j + 1 < matrice[0].size() && matrice[i - 1][j + 1] == 1) compteur++;  // i > 0 et j + 1 < matrice[0].size()
+            // Vérifie les cellules adjacentes avec gestion torique
+            // Ligne suivante (en bas) : Si i est au bas de la grille, on revient au haut
+            if (matrice[(i + 1) % matrice.size()][j] == 1) compteur++;  // Torique : (i + 1) % matrice.size() revient au début si i est à la fin
+
+            // Ligne précédente (en haut) : Si i est au début, on revient en bas
+            if (matrice[(i - 1 + matrice.size()) % matrice.size()][j] == 1) compteur++;  // Torique : (i - 1 + matrice.size()) % matrice.size() revient en bas si i est au début
+
+            // Colonne suivante (à droite) : Si j est au bord droit, on revient au bord gauche
+            if (matrice[i][(j + 1) % matrice[i].size()] == 1) compteur++;  // Torique : (j + 1) % matrice[i].size() revient au début si j est à la fin
+
+            // Colonne précédente (à gauche) : Si j est au début, on revient à droite
+            if (matrice[i][(j - 1 + matrice[i].size()) % matrice[i].size()] == 1) compteur++;  // Torique : (j - 1 + matrice[i].size()) % matrice[i].size() revient à droite si j est au début
+
+            // Diagonales
+            if (matrice[(i + 1) % matrice.size()][(j - 1 + matrice[i].size()) % matrice[i].size()] == 1) compteur++;  // Diagonale bas-gauche
+            if (matrice[(i + 1) % matrice.size()][(j + 1) % matrice[i].size()] == 1) compteur++;  // Diagonale bas-droite
+            if (matrice[(i - 1 + matrice.size()) % matrice.size()][(j - 1 + matrice[i].size()) % matrice[i].size()] == 1) compteur++;  // Diagonale haut-gauche
+            if (matrice[(i - 1 + matrice.size()) % matrice.size()][(j + 1) % matrice[i].size()] == 1) compteur++;  // Diagonale haut-droite
 
             // Règles de changement d'état
             if (matrice[i][j] == 0) {
