@@ -1,26 +1,22 @@
 #include "Simulation.h"
-#include <SFML/Graphics.hpp>
+#include "Cellule.h"
 #include <iostream>
-#include <thread>
-#include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <chrono>
+#include <thread>
 
 using namespace std;
-//controlleur
-Simulation::Simulation() {
-    max_iterations = 0;
-} 
+
+Simulation::Simulation() : max_iterations(0) {}
 
 void Simulation::lancer() {
-    // Charger la grille
     grille.implementation_valeurs();
     if (grille.getMatrice().empty()) {
         cerr << "Erreur : La matrice est vide !" << endl;
         return;
     }
 
-    // Menu principal
     cout << "Choisissez l'interface :\n";
     cout << "1. Interface console\n";
     cout << "2. Interface graphique\n";
@@ -41,6 +37,7 @@ void Simulation::lancer() {
 }
 
 void Simulation::interfaceConsole() {
+
     // Récupérer le nom du fichier source
     string fichier_source = grille.getFichierSource();
 
@@ -50,11 +47,9 @@ void Simulation::interfaceConsole() {
         filesystem::create_directory(dossier_sortie);
     }
 
-    // Effectuer les itérations et sauvegarder les états
+
     for (int iteration = 0; iteration < max_iterations; ++iteration) {
-        // Affiche la grille dans la console
-        cout << "Iteration " << iteration + 1 << ":" << endl;
-        grille.affiche_grille();
+        vue.afficheGrilleConsole(grille, iteration);
 
         // Sauvegarde de l'état dans un fichier
         string nom_fichier_sortie = dossier_sortie + "/iteration_" + to_string(iteration + 1) + ".txt";
@@ -69,65 +64,20 @@ void Simulation::interfaceConsole() {
         }
         fichier_sortie.close();
 
+
         // Calcul de l'état suivant
         Cellule cellule;
         auto nouvelleMatrice = cellule.Cellule_changement_etat(grille.getMatrice());
         grille.setMatrice(nouvelleMatrice);
 
-        // Pause entre les itérations
         this_thread::sleep_for(chrono::milliseconds(1000));
     }
 }
 
-
 void Simulation::interfaceGraphique() {
     int temps;
-    cout << "Entrez le temps entre deux itérations en millisecondes (idéal : 200) : ";
+    cout << "Entrez le temps entre deux itérations en millisecondes : ";
     cin >> temps;
-    
-    int lignes = grille.getMatrice().size();
-    int colonnes = grille.getMatrice()[0].size();
-    int taille_case = 10;  // Taille de chaque case (ajustez pour rendre plus petit ou grand)
-    
-    // Limiter la taille de la fenêtre
-    int max_largeur = 800; // Largeur maximale de la fenêtre
-    int max_hauteur = 600; // Hauteur maximale de la fenêtre
-    
-    // Calculer la taille de la fenêtre en fonction de la grille
-    int largeur_fenetre = min(colonnes * taille_case, max_largeur);
-    int hauteur_fenetre = min(lignes * taille_case, max_hauteur);
 
-    // Créer la fenêtre avec la taille ajustée
-    sf::RenderWindow window(sf::VideoMode(largeur_fenetre, hauteur_fenetre), "Simulation de la grille", sf::Style::Resize);
-    
-    sf::Color couleur_vivante = sf::Color::White;
-    sf::Color couleur_morte = sf::Color::Black;
-
-    int iteration = 0;
-    while (window.isOpen() && iteration < max_iterations) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        // Mettre à jour la grille
-        Cellule cellule;
-        auto nouvelleMatrice = cellule.Cellule_changement_etat(grille.getMatrice());
-        grille.setMatrice(nouvelleMatrice);
-
-        // Affichage
-        window.clear();
-        for (int i = 0; i < lignes; ++i) {
-            for (int j = 0; j < colonnes; ++j) {
-                sf::RectangleShape case_rect(sf::Vector2f(taille_case - 1, taille_case - 1));
-                case_rect.setPosition(j * taille_case, i * taille_case);
-                case_rect.setFillColor(grille.getMatrice()[i][j] == 1 ? couleur_vivante : couleur_morte);
-                window.draw(case_rect);
-            }
-        }
-        window.display();
-        this_thread::sleep_for(chrono::milliseconds(temps));  // Pause entre les itérations
-        iteration++;
-    }
+    vue.afficheGrilleGraphique(grille, max_iterations, temps);
 }

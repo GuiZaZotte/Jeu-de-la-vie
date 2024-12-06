@@ -2,18 +2,14 @@
 #define SIMULATION_H
 
 #include "Grille.h"
-#include "Cellule.h"
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <thread>
-#include <chrono>
+#include "Vue.h"
 
 class Simulation {
 private:
     Grille grille;
+    Vue vue;
     int max_iterations;
 
-    // Méthodes privées pour gérer les interfaces
     void interfaceConsole();
     void interfaceGraphique();
 
