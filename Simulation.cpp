@@ -7,7 +7,7 @@
 #include <fstream>
 
 using namespace std;
-
+//controlleur
 Simulation::Simulation() {
     max_iterations = 0;
 } 

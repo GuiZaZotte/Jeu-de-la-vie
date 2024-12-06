@@ -19,33 +19,39 @@ Grille::Grille(vector<vector<int>> matrice) { // permet de creer une instance av
     this->matrice = matrice;  // permet de remplacer la matrice par défaut par la nouvelle matrice, utilisation de this pour différencier les deux matrices.
 }
 
-
 // Méthodes principales : 
 
-
 void Grille::implementation_valeurs() {
-    cout << "Entrez le nom de votre fichier d'entrée avec l'extension : ";
-    cin >> fichier_source;  // Stocke le nom du fichier dans l'attribut fichier_source
+    ifstream fichier;
 
-    ifstream fichier(fichier_source);
-    if (!fichier) {
-        cerr << "Erreur : Impossible d'ouvrir le fichier " << fichier_source << endl;
-        return;
+    cout << "Entrez le nom de votre fichier d'entrée avec l'extension : ";
+    cin >> fichier_source;
+
+    fichier.open(fichier_source);
+    while (!fichier) { // Tant que le fichier ne peut pas être ouvert
+        cerr << "Erreur : Impossible d'ouvrir le fichier " << fichier_source << ". Veuillez réessayer." << endl;
+        cout << "Entrez le nom de votre fichier d'entrée avec l'extension : ";
+        cin >> fichier_source;
+        fichier.open(fichier_source); // Réessaye d'ouvrir le fichier
     }
 
+    // Lecture des dimensions
     int lignes, colonnes;
     fichier >> lignes >> colonnes;
-
     matrice.resize(lignes, vector<int>(colonnes));
 
+    // Remplissage de la matrice
     for (int i = 0; i < lignes; ++i) {
         for (int j = 0; j < colonnes; ++j) {
             fichier >> matrice[i][j];
         }
     }
 
-    fichier.close();
+    fichier.close(); // Ferme le fichier
+    cout << "Fichier chargé avec succès." << endl;
 }
+
+
 
 string Grille::getFichierSource() const {
     return fichier_source;  // Retourne le nom du fichier source
