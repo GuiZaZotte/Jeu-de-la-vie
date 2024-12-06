@@ -5,7 +5,7 @@ using namespace std;
 
 vector<vector<int>> Cellule::Cellule_changement_etat(const vector<vector<int>>& matrice) {
     int compteur = 0;
-    vector<vector<int>> temp = matrice;
+    vector<vector<int>> temp = matrice;  // Copie de la matrice pour ne pas modifier l'état pendant les itérations
 
     for (size_t i = 0; i < matrice.size(); i++) {  // Utilisation de size_t
         for (size_t j = 0; j < matrice[i].size(); j++) {  // Utilisation de size_t
@@ -23,16 +23,16 @@ vector<vector<int>> Cellule::Cellule_changement_etat(const vector<vector<int>>& 
 
             // Règles de changement d'état
             if (matrice[i][j] == 0) {
-                if (compteur >= 3) {
+                if (compteur == 3) {  // Cellule morte devient vivante si elle a exactement 3 voisins vivants
                     temp[i][j] = 1;
                 }
             } else {
-                if (compteur < 2 || compteur > 3) {
+                if (compteur < 2 || compteur > 3) {  // Cellule vivante meurt si elle a moins de 2 ou plus de 3 voisins vivants
                     temp[i][j] = 0;
                 }
             }
         }
     }
 
-    return temp;
+    return temp;  // Retourne la nouvelle matrice mise à jour
 }
