@@ -21,10 +21,10 @@ Pour impléter le programme, il faut le téléchargr ou le cloner.
 
 #### Télécharger le programme :
 
-![alt text](image.png)
+<img src="image.png" width="300" />
 
 #### Cloner le programme :
 
-![alt text](image-1.png)
+<img src="image-1.png" width="300" />
 
 ## Documentation Technique :
