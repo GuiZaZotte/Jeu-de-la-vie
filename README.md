@@ -1,5 +1,7 @@
 # **JEU DE LA VIE**
 
+![Démo](https://imgur.com/OfusY)
+
 ## CONTEXTE :
 
 Le jeu de la vie est un automate cellulaire proposé par le mathématicien John Conway. Il permet de suivre l’évolution d’une population de cellules au cours du temps. Ces cellules sont dans une grille en deux dimensions et chaque cellule peut avoir deux états, soit vivante, soit morte.  
@@ -151,6 +153,10 @@ Le controleur : Cela reprèsente l'interaction de l'utilisateur et met à jour l
 - La classe `Vue` permet de gérer l'affichage console et graphique.
 
 - La classe `Simulation` permet de configuer les différents affichages en fonction des interactions de l'utilisateur.
+
+#### Explication détaillé de tout le programme :
+
+- Chaque fichier de la branche main est expliqué entièrement pour permettre une comprehension parfaite du code.
 
 ### Les systèmes d'erreurs :
 
