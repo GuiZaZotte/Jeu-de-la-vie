@@ -87,4 +87,25 @@ Pour exécuter le programme, il faut rentrer dans le terminal :
 
 - `./simulation` => Permet d'exécuter les fichiers.
 
+### Comment fonctionne le programme ?
+
+1 - Entrez le nom de votre fichier d'entrée avec l'extension, si vous avez garder celui par défaut alors entrez `test.txt"`
+
+2 - Maintenant, Choissisez l'interface que vous souhaitez en écrivant 1 pour l'interface console et 2 pour l'interface graphique.
+
+Si vous avez choisi, l'interface console alors :
+
+- Entrez le nombre maximum d'itération que vous souhaitez.
+- Normalment le jeu s'affiche dans la console et sauvegarde chaque itérations dans un dossier de sortie `nomfichierentree_out`
+
+<img src="image-6.png" width="300" />
+
+Si vous avez choisi, l'interface graphique alors :
+
+- Entrez le nombre maximum d'itération que vous souhaitez.
+- Entre le temps entre chaque itération.
+- Normalement le jeu d'affiche dans une interface graphique.
+
+<img src="image-7.png" width="300" />
+
 ## Documentation Technique :
