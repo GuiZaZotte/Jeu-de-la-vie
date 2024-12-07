@@ -1,48 +1,64 @@
+// Bibliothèques :
 
-#include "Cellule.h"
-#include <iostream>
+#include "Grille.h" // permet d'inclure la classe Grille pour réutiliser les méthodes publiques de la classe.
+#include "Cellule.h" // permet d'inclure le fichier d'en tête.
 
-using namespace std;
+using namespace std; // permet d'éviter de réécrite std à chaque utilisation de la bibliothèque standard dans notre cas.
 
+
+// Méthode :
+
+// Méthode permettant de gérer les changements etats, retournant une matrice mise à jour.
 vector<vector<int>> Cellule::Cellule_changement_etat(const vector<vector<int>>& matrice) {
-    int compteur = 0;
-    vector<vector<int>> temp = matrice;  // Copie de la matrice pour ne pas modifier l'état pendant les itérations
+    int compteur = 0; // Compteur pour suivre l'evolution du nombre de cellules vivantes voisines.
+    vector<vector<int>> temp = matrice;  // Permet de copier la matrice actuel dans une nouvelle matrice pour éviter d'écraser les valeurs.
 
-    for (size_t i = 0; i < matrice.size(); i++) {  // Utilisation de size_t
-        for (size_t j = 0; j < matrice[i].size(); j++) {  // Utilisation de size_t
-            compteur = 0;
+    
+    // Permet de parcourir toute la matrice.
+    for (size_t i = 0; i < matrice.size(); i++) { 
+        for (size_t j = 0; j < matrice[i].size(); j++) { 
+            compteur = 0; // Initialise le compteur à 0;
 
-            // Vérifie les cellules adjacentes avec gestion torique
-            // Ligne suivante (en bas) : Si i est au bas de la grille, on revient au haut
-            if (matrice[(i + 1) % matrice.size()][j] == 1) compteur++;  // Torique : (i + 1) % matrice.size() revient au début si i est à la fin
+            
+            // Extension avec la grille thorique avec l'utilisation du modulo de la taille de la matrice.
+            
+            // Si la matrice en dessous est vivante on ajoute 1 au compteur.
+            if (matrice[(i + 1) % matrice.size()][j] == 1) compteur++;  
 
-            // Ligne précédente (en haut) : Si i est au début, on revient en bas
-            if (matrice[(i - 1 + matrice.size()) % matrice.size()][j] == 1) compteur++;  // Torique : (i - 1 + matrice.size()) % matrice.size() revient en bas si i est au début
+            // Si la matrice au dessus est vivante on ajoute 1 au compteur.
+            if (matrice[(i - 1 + matrice.size()) % matrice.size()][j] == 1) compteur++;  
 
-            // Colonne suivante (à droite) : Si j est au bord droit, on revient au bord gauche
-            if (matrice[i][(j + 1) % matrice[i].size()] == 1) compteur++;  // Torique : (j + 1) % matrice[i].size() revient au début si j est à la fin
+            // Si la matrice à droite est vivante on ajoute 1 au compteur.
+            if (matrice[i][(j + 1) % matrice[i].size()] == 1) compteur++; 
 
-            // Colonne précédente (à gauche) : Si j est au début, on revient à droite
-            if (matrice[i][(j - 1 + matrice[i].size()) % matrice[i].size()] == 1) compteur++;  // Torique : (j - 1 + matrice[i].size()) % matrice[i].size() revient à droite si j est au début
+            // Si la matrice à gauche est vivante on ajoute 1 au compteur.
+            if (matrice[i][(j - 1 + matrice[i].size()) % matrice[i].size()] == 1) compteur++;
 
-            // Diagonales
-            if (matrice[(i + 1) % matrice.size()][(j - 1 + matrice[i].size()) % matrice[i].size()] == 1) compteur++;  // Diagonale bas-gauche
-            if (matrice[(i + 1) % matrice.size()][(j + 1) % matrice[i].size()] == 1) compteur++;  // Diagonale bas-droite
-            if (matrice[(i - 1 + matrice.size()) % matrice.size()][(j - 1 + matrice[i].size()) % matrice[i].size()] == 1) compteur++;  // Diagonale haut-gauche
-            if (matrice[(i - 1 + matrice.size()) % matrice.size()][(j + 1) % matrice[i].size()] == 1) compteur++;  // Diagonale haut-droite
+            // Si la matrice en bas à gauche  est vivante on ajoute 1 au compteur.
+            if (matrice[(i + 1) % matrice.size()][(j - 1 + matrice[i].size()) % matrice[i].size()] == 1) compteur++;  
+            
+            // Si la matrice en bas à droite  est vivante on ajoute 1 au compteur.
+            if (matrice[(i + 1) % matrice.size()][(j + 1) % matrice[i].size()] == 1) compteur++; 
+            
+            // Si la matrice en haut à gauche est vivante on ajoute 1 au compteur.
+            if (matrice[(i - 1 + matrice.size()) % matrice.size()][(j - 1 + matrice[i].size()) % matrice[i].size()] == 1) compteur++;  
+            
+            // Si la matrice en haut à droite  est vivante on ajoute 1 au compteur.
+            if (matrice[(i - 1 + matrice.size()) % matrice.size()][(j + 1) % matrice[i].size()] == 1) compteur++;  
 
-            // Règles de changement d'état
+           
+            // En fonction du compteur, la cellule change d'état.
             if (matrice[i][j] == 0) {
-                if (compteur == 3) {  // Cellule morte devient vivante si elle a exactement 3 voisins vivants
+                if (compteur == 3) {  // La cellule morte devient vivante si elle a 3 voisins vivants.
                     temp[i][j] = 1;
                 }
             } else {
-                if (compteur < 2 || compteur > 3) {  // Cellule vivante meurt si elle a moins de 2 ou plus de 3 voisins vivants
+                if (compteur < 2 || compteur > 3) {  // La cellule vivante meurt si elle a moins de 2 ou plus de 3 voisins vivants.
                     temp[i][j] = 0;
                 }
             }
         }
     }
 
-    return temp;  // Retourne la nouvelle matrice mise à jour
+    return temp;  // permet de retourner la nouvelle matrice mise à jour.
 }
