@@ -1,5 +1,5 @@
 
-<H1><span style="color:#FF4500 ;font-weight: bold;">JEU DE LA VIE</span></H1>  
+# 🟠JEU DE LA VIE🟠
 
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
