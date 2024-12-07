@@ -112,7 +112,7 @@ Si vous avez choisi, l'interface graphique alors :
 
 ### Explication du programme :
 
-### Composition :
+#### Composition :
 
 Le programme se compose de plusieurs fichiers obligatoires :
 
@@ -130,16 +130,34 @@ Le programme se compose de plusieurs fichiers obligatoires :
 Il y a 4 classes (Grille, Cellule, Vue, Simulation) et un main.cpp.
 Le Makefile permet d'exécuter le programme.
 
-### Architecture (MVC):
+#### Architecture (MVC):
 
 Ce programme est sous la forme d'une architecture MVC qui est un modèle de conception permettant de diviser le code en 3 éléments :
 
-Le modèle : Il reprèsente la logique du jeu donc l'évolution de la grille avec la classe `Grille` et `Cellule`.
+Le modèle : Cela reprèsente la logique du jeu donc l'évolution de la grille avec la classe `Grille` et `Cellule`.
 
 La vue : Cela représente l'affichage du jeu avec la classe `Vue`.
 
-Le controleur : Il reprèsente l'interaction de l'utilisateur et met à jour le jeu en fonction avec la classe `Simulation`
+Le controleur : Cela reprèsente l'interaction de l'utilisateur et met à jour le jeu en fonction avec la classe `Simulation`
 
-### Explication plus détaillée de chaque classe:
+#### Explication plus détaillée de chaque classe:
 
-- La classe `Grille` permet récupérer
+- La classe `Grille` permet transformer la matrice dans le fichier d'entrée en Matrice vectorielle sous forme de tableau dynamique.
+
+- La classe `Cellule` permet de modifier la matrice vectorielle en analysant les cellules voisines.
+  => Une cellule morte possédant exactement trois voisines devient vivante.
+  => Une cellule vivante possédant deux ou trois voisines vivantes reste vivante, sinon elle meurt.
+
+- La classe `Vue` permet de gérer l'affichage console et graphique.
+
+- La classe `Simulation` permet de configuer les différents affichages en fonction des interactions de l'utilisateur.
+
+### Les systèmes d'erreurs :
+
+- Si l'utilisateur se trompe de nom de fichier d'entrée, alors l'erreur sera `Erreur : Impossible d'ouvrir le fichier ds. Veuillez réessayer.`
+
+- Si l'utilisateur ne complète pas la matrice dans le fichier d'entrée alors l'erreur sera `Erreur : La matrice est vide !`
+
+- Si l'utilisateur écrit autre chose que 1 ou 2 lors du choix du mode d'affiche alors l'erreur sera `Erreur : Choix invalide !`
+
+- Si l'utilisateur rentre une valeur pour la matrice dans le fichier d'entrée différent de 0 ou 1 alors l'erreur sera `Erreur : La grille contient une valeur invalide` avec la valeur problématique.
