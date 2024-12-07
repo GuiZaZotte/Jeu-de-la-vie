@@ -15,6 +15,9 @@ Pour cela deux règles définissent le jeu de la vie :
 
 ## SOMMAIRE :
 
+- [DOCUMENTATION UTILISATEUR](#DOCUMENTATION UTILISATEUR)
+- [DOCUMENTATION TECHNIQUE](#DOCUMENTATION TECHNIQUE)
+
 ## DOCUMENTATION UTILISATEUR :
 
 ### Comment implémenter le programme ?
@@ -144,7 +147,7 @@ Le controleur : Cela reprèsente l'interaction de l'utilisateur et met à jour l
 
 #### Explication plus détaillée de chaque classe:
 
-- La classe `Grille` permet transformer la matrice dans le fichier d'entrée en Matrice vectorielle sous forme de tableau dynamique.
+- La classe `Grille` permet de transformer la matrice dans le fichier d'entrée en Matrice vectorielle sous forme de tableau dynamique.
 
 - La classe `Cellule` permet de modifier la matrice vectorielle en analysant les cellules voisines.
   => Une cellule morte possédant exactement trois voisines devient vivante.
