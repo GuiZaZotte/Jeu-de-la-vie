@@ -15,8 +15,8 @@ Pour cela deux règles définissent le jeu de la vie :
 
 ## SOMMAIRE :
 
-- [Documentation utilisateur](#DOCUMENTATION-TILISATEUR)
-- [Documentation technique](#DOCUMENTATION-TECHNIQUE)
+- [DOCUMENTATION UTILISATEUR](#DOCUMENTATION-UTILISATEUR-:)
+- [DOCUMENTATION TECHNIQUE](#DOCUMENTATION-TECHNIQUE-:)
 
 ## DOCUMENTATION UTILISATEUR :
 
