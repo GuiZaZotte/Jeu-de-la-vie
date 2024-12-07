@@ -1,6 +1,6 @@
 # **JEU DE LA VIE**
 
-![Démo](![alt text](gameoflife.gif))
+![alt text](gameoflife.gif)
 
 ## CONTEXTE :
 
