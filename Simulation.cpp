@@ -1,26 +1,35 @@
-#include "Simulation.h"
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <thread>
-#include <chrono>
-#include <filesystem>
-#include <fstream>
+// Bibliothèques :
 
-using namespace std;
-//controlleur
-Simulation::Simulation() {
+#include "Simulation.h" // permet d'inclure le fichier d'en tête.
+#include "Cellule.h" // permet d'inclure la classe Cellule pour réutiliser les méthodes publiques de la classe.
+#include <iostream> // permet d'afficher du texte dans la console.
+#include <filesystem> // permet gérer le système de fichiers comme créer un répertoire
+#include <fstream> // permet de manipuler un fichier.
+#include <thread> // permet d'introduire des délais.
+#include <chrono> // permet d'introduire une unité de temps.
+
+
+using namespace std; // permet d'éviter de réécrite std à chaque utilisation de la bibliothèque standard dans notre cas.
+
+// Constructeur :
+
+Simulation::Simulation(){ // permet creer une instance avec un max d'itération de 0.
     max_iterations = 0;
-} 
+}
 
+// Méthodes : 
+
+// permet de démarrer la simulation.
 void Simulation::lancer() {
-    // Charger la grille
-    grille.implementation_valeurs();
+    grille.implementation_valeurs(); // On remplit la matrice en utilisant la méthode de la classe cellule.
+    
+    // Permet de savoir si la matrice est vide :
     if (grille.getMatrice().empty()) {
         cerr << "Erreur : La matrice est vide !" << endl;
         return;
     }
 
-    // Menu principal
+    // Permet à l'utilisateur de choisir son interface.
     cout << "Choisissez l'interface :\n";
     cout << "1. Interface console\n";
     cout << "2. Interface graphique\n";
@@ -28,9 +37,12 @@ void Simulation::lancer() {
     int choix;
     cin >> choix;
 
+    // Permet à l'utilisateur de rentrer le nombre d'itération maximum souhaité.
     cout << "Entrez le nombre d'iterations : ";
     cin >> max_iterations;
 
+    // Fait appelle aux méthodes d'interface en fonction du choix.
+    
     if (choix == 1) {
         interfaceConsole();
     } else if (choix == 2) {
@@ -40,23 +52,30 @@ void Simulation::lancer() {
     }
 }
 
+// Permet de gérer l'éxécution de la simulation dans la console.
 void Simulation::interfaceConsole() {
-    // Récupérer le nom du fichier source
+    
+    grille.getMatrice();
+    testerGrille(grille);
+
+    // Permet de récupérer le nom du fichier source
     string fichier_source = grille.getFichierSource();
 
-    // Créer le dossier de sortie
+    // Permer d'initialise la chaine de caractère du dossier_sortie avec le nom du fichier source puis _out
     string dossier_sortie = fichier_source.substr(0, fichier_source.find('.')) + "_out";
+    
+    // Si ce fichier n'existe pas alors on le crée.
     if (!filesystem::exists(dossier_sortie)) {
         filesystem::create_directory(dossier_sortie);
     }
 
-    // Effectuer les itérations et sauvegarder les états
+    // Boucle permettant d'augmenter les itérations.
     for (int iteration = 0; iteration < max_iterations; ++iteration) {
-        // Affiche la grille dans la console
-        cout << "Iteration " << iteration + 1 << ":" << endl;
-        grille.affiche_grille();
+        
+        // Affiche la grille dans la console à chaque itération.
+        vue.afficheGrilleConsole(grille);
 
-        // Sauvegarde de l'état dans un fichier
+        // Sauvegarde l'itération dans le fichier de sortie.
         string nom_fichier_sortie = dossier_sortie + "/iteration_" + to_string(iteration + 1) + ".txt";
         ofstream fichier_sortie(nom_fichier_sortie);
         if (fichier_sortie) {
@@ -69,65 +88,62 @@ void Simulation::interfaceConsole() {
         }
         fichier_sortie.close();
 
-        // Calcul de l'état suivant
+
+        // Utilisation des méthodes de la classe Cellule pour appliquer les règles du changement d'état.
         Cellule cellule;
         auto nouvelleMatrice = cellule.Cellule_changement_etat(grille.getMatrice());
+        // Mise à jour de la grille.
         grille.setMatrice(nouvelleMatrice);
+        testerGrille(nouvelleMatrice);
 
-        // Pause entre les itérations
+
+        // Permet de mettre un délais entre chaque itération.
         this_thread::sleep_for(chrono::milliseconds(1000));
     }
 }
 
-
+// Permet de gérer l'éxécution de la simulation dans l'interface graphique.
 void Simulation::interfaceGraphique() {
+
+    // Permet à l'utilisateur d'entrée le temps souhaité entre chaque itération.
     int temps;
-    cout << "Entrez le temps entre deux itérations en millisecondes (idéal : 200) : ";
+    cout << "Entrez le temps entre deux itérations en millisecondes : ";
     cin >> temps;
-    
-    int lignes = grille.getMatrice().size();
-    int colonnes = grille.getMatrice()[0].size();
-    int taille_case = 10;  // Taille de chaque case (ajustez pour rendre plus petit ou grand)
-    
-    // Limiter la taille de la fenêtre
-    int max_largeur = 800; // Largeur maximale de la fenêtre
-    int max_hauteur = 600; // Hauteur maximale de la fenêtre
-    
-    // Calculer la taille de la fenêtre en fonction de la grille
-    int largeur_fenetre = min(colonnes * taille_case, max_largeur);
-    int hauteur_fenetre = min(lignes * taille_case, max_hauteur);
 
-    // Créer la fenêtre avec la taille ajustée
-    sf::RenderWindow window(sf::VideoMode(largeur_fenetre, hauteur_fenetre), "Simulation de la grille", sf::Style::Resize);
-    
-    sf::Color couleur_vivante = sf::Color::White;
-    sf::Color couleur_morte = sf::Color::Black;
+    // Permet d'afficher la grille avec l'interface graphique.
+    vue.afficheGrilleGraphique(grille, max_iterations, temps);
+}
 
-    int iteration = 0;
-    while (window.isOpen() && iteration < max_iterations) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        // Mettre à jour la grille
-        Cellule cellule;
-        auto nouvelleMatrice = cellule.Cellule_changement_etat(grille.getMatrice());
-        grille.setMatrice(nouvelleMatrice);
-
-        // Affichage
-        window.clear();
-        for (int i = 0; i < lignes; ++i) {
-            for (int j = 0; j < colonnes; ++j) {
-                sf::RectangleShape case_rect(sf::Vector2f(taille_case - 1, taille_case - 1));
-                case_rect.setPosition(j * taille_case, i * taille_case);
-                case_rect.setFillColor(grille.getMatrice()[i][j] == 1 ? couleur_vivante : couleur_morte);
-                window.draw(case_rect);
+// Méthode de test unitaire permettant de vérifier si la grille est valide.
+void Simulation::testerGrille(const Grille& grille) {
+    bool valide = true;
+    for (const auto& ligne : grille.getMatrice()) {
+        for (int valeur : ligne) {
+            if (valeur != 0 && valeur != 1) {
+                cerr << "Erreur : La grille contient une valeur invalide (" << valeur << ")." << endl;
+                valide = false;
             }
         }
-        window.display();
-        this_thread::sleep_for(chrono::milliseconds(temps));  // Pause entre les itérations
-        iteration++;
     }
+
+    if (valide) {
+        cout << "La grille est valide." << endl;
+    } else {
+        cerr << "La grille n'est pas valide." << endl;
+        exit(1); // Arrête l'exécution du programme si une valeur invalide est trouvée.
+    }
+}
+
+
+
+// Accesseurs :
+
+// Permet de récupérer le nombre maximum d'itération.
+int Simulation ::  get_max_iterations(){
+    return max_iterations;
+}
+
+// Permet de modifier le nombre maximum d'itération.
+void Simulation :: set_max_iterations(int max_iterations){
+    this->max_iterations = max_iterations;
 }

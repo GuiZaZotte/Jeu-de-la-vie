@@ -11,7 +11,7 @@ CXXFLAGS = -Wall -Wextra -std=c++17 -g
 SFML_LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 
 # Fichiers sources et objets
-SRC = main.cpp Grille.cpp Cellule.cpp Simulation.cpp
+SRC = main.cpp Grille.cpp Cellule.cpp Simulation.cpp Vue.cpp
 OBJ = $(SRC:.cpp=.o)
 
 # Règle principale (par défaut)
