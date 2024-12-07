@@ -1,6 +1,6 @@
 # **JEU DE LA VIE**
 
-![Démo](https://imgur.com/OfusY)
+![Démo](![alt text](gameoflife.gif))
 
 ## CONTEXTE :
 
