@@ -89,7 +89,7 @@ Pour exécuter le programme, il faut rentrer dans le terminal :
 
 ### Comment fonctionne le programme ?
 
-1 - Entrez le nom de votre fichier d'entrée avec l'extension, si vous avez garder celui par défaut alors entrez `test.txt"`
+1 - Entrez le nom de votre fichier d'entrée avec l'extension, si vous avez garder celui par défaut alors entrez `test.txt`
 
 2 - Maintenant, Choissisez l'interface que vous souhaitez en écrivant 1 pour l'interface console et 2 pour l'interface graphique.
 
@@ -109,3 +109,37 @@ Si vous avez choisi, l'interface graphique alors :
 <img src="image-7.png" width="300" />
 
 ## Documentation Technique :
+
+### Explication du programme :
+
+### Composition :
+
+Le programme se compose de plusieurs fichiers obligatoires :
+
+- Main.cpp
+- Grille.h
+- Grille.cpp
+- Cellule.h
+- Cellule.cpp
+- Vue.h
+- Vue.cpp
+- Simulation.h
+- Simulation.cpp
+- Makefile
+
+Il y a 4 classes (Grille, Cellule, Vue, Simulation) et un main.cpp.
+Le Makefile permet d'exécuter le programme.
+
+### Architecture (MVC):
+
+Ce programme est sous la forme d'une architecture MVC qui est un modèle de conception permettant de diviser le code en 3 éléments :
+
+Le modèle : Il reprèsente la logique du jeu donc l'évolution de la grille avec la classe `Grille` et `Cellule`.
+
+La vue : Cela représente l'affichage du jeu avec la classe `Vue`.
+
+Le controleur : Il reprèsente l'interaction de l'utilisateur et met à jour le jeu en fonction avec la classe `Simulation`
+
+### Explication plus détaillée de chaque classe:
+
+- La classe `Grille` permet récupérer
