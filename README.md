@@ -15,4 +15,16 @@ Pour cela deux règles définissent le jeu de la vie :
 
 ## Documentation Utilisateur :
 
+### Implémenter le programme :
+
+Pour impléter le programme, il faut le téléchargr ou le cloner.
+
+#### Télécharger le programme :
+
+![alt text](image.png)
+
+#### Cloner le programme :
+
+![alt text](image-1.png)
+
 ## Documentation Technique :
