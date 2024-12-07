@@ -1,4 +1,9 @@
-# **JEU DE LA VIE**
+
+<H1><span style="color:#FF4500 ;font-weight: bold;">JEU DE LA VIE</span></H1>  
+
+![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
 
 ![alt text](gameoflife.gif)
 
@@ -15,8 +20,8 @@ Pour cela deux règles définissent le jeu de la vie :
 
 ## SOMMAIRE :
 
-- [DOCUMENTATION UTILISATEUR](#DOCUMENTATION-UTILISATEUR-:)
-- [DOCUMENTATION TECHNIQUE](#DOCUMENTATION-TECHNIQUE-:)
+- [DOCUMENTATION UTILISATEUR](#documentation-utilisateur-)
+- [DOCUMENTATION TECHNIQUE](#documentation-technique-)
 
 ## DOCUMENTATION UTILISATEUR :
 
