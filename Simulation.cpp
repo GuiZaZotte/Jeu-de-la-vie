@@ -54,6 +54,9 @@ void Simulation::lancer() {
 
 // Permet de gérer l'éxécution de la simulation dans la console.
 void Simulation::interfaceConsole() {
+    
+    grille.getMatrice();
+    testerGrille(grille);
 
     // Permet de récupérer le nom du fichier source
     string fichier_source = grille.getFichierSource();
@@ -91,6 +94,9 @@ void Simulation::interfaceConsole() {
         auto nouvelleMatrice = cellule.Cellule_changement_etat(grille.getMatrice());
         // Mise à jour de la grille.
         grille.setMatrice(nouvelleMatrice);
+        testerGrille(nouvelleMatrice);
+
+
         // Permet de mettre un délais entre chaque itération.
         this_thread::sleep_for(chrono::milliseconds(1000));
     }
@@ -107,6 +113,28 @@ void Simulation::interfaceGraphique() {
     // Permet d'afficher la grille avec l'interface graphique.
     vue.afficheGrilleGraphique(grille, max_iterations, temps);
 }
+
+// Méthode de test unitaire permettant de vérifier si la grille est valide.
+void Simulation::testerGrille(const Grille& grille) {
+    bool valide = true;
+    for (const auto& ligne : grille.getMatrice()) {
+        for (int valeur : ligne) {
+            if (valeur != 0 && valeur != 1) {
+                cerr << "Erreur : La grille contient une valeur invalide (" << valeur << ")." << endl;
+                valide = false;
+            }
+        }
+    }
+
+    if (valide) {
+        cout << "La grille est valide." << endl;
+    } else {
+        cerr << "La grille n'est pas valide." << endl;
+        exit(1); // Arrête l'exécution du programme si une valeur invalide est trouvée.
+    }
+}
+
+
 
 // Accesseurs :
 
