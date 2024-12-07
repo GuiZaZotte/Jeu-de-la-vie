@@ -16,10 +16,7 @@ private:
 
 //Méthodes :
 
-    // Permet de gérer l'éxécution de la simulation dans la console.
-    void interfaceConsole();  
-    // Permet de gérer l'éxécution de la simulation dans l'interface graphique.
-    void interfaceGraphique();
+    
 
 public:
 // Accessible partout.
@@ -28,7 +25,14 @@ public:
     Simulation();// Initialiser une instance avec une matrice par défaut.
     
     // Méthode :
+    
     void lancer(); // Permet de démarrer la simulation.
+    // Permet de gérer l'éxécution de la simulation dans la console.
+    void interfaceConsole();  
+    // Permet de gérer l'éxécution de la simulation dans l'interface graphique.
+    void interfaceGraphique();
+    // Méthode de test unitaire permettant de vérifier si la grille est valide.
+    void testerGrille(const Grille& grille);
 
     // Accesseurs : 
     int get_max_iterations(); // Permet de récupérer le nombre maximum d'itération.
